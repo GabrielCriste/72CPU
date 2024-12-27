@@ -78,8 +78,10 @@ RUN . /opt/conda/bin/activate && \
 # Include Scala and sbt environment
 COPY --from=scala-sbt /usr/share/sbt /usr/share/sbt
 COPY --from=scala-sbt /usr/share/scala /usr/share/scala
-RUN ln -s /usr/share/sbt/bin/sbt /usr/local/bin/sbt \
- && ln -s /usr/share/scala/bin/* /usr/local/bin
+
+# Fix symbolic links for sbt and Scala binaries
+RUN ln -sf /usr/share/sbt/bin/sbt /usr/local/bin/sbt \
+ && ln -sf /usr/share/scala/bin/* /usr/local/bin
 
 # Warm up sbt
 USER root
@@ -87,4 +89,5 @@ RUN mkdir -p /test && \
     echo "scalaVersion := \"${SCALA_VERSION}\"" > /test/build.sbt && \
     sbt -sbt-create compile
 
+# Final command
 CMD ["start.sh"]
