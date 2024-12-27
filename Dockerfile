@@ -12,9 +12,9 @@ ENV USER_ID=${USER_ID:-1001}
 ARG GROUP_ID
 ENV GROUP_ID=${GROUP_ID:-1001}
 
-# Install dependencies for sbt and Scala
+# Install dependencies for sbt, Scala, and Java
 RUN dnf -y update \
- && dnf -y install tar gzip procps git rpm \
+ && dnf -y install tar gzip procps git rpm java-17-amazon-corretto \
  && rm -rf /var/cache/dnf/* && dnf clean all
 
 # Install sbt
@@ -91,3 +91,4 @@ RUN mkdir -p /test && \
     sbt -sbt-create compile
 
 CMD ["start.sh"]
+
