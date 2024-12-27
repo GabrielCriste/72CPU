@@ -79,7 +79,8 @@ RUN . /opt/conda/bin/activate && \
 COPY --from=scala-sbt /usr/share/sbt /usr/share/sbt
 COPY --from=scala-sbt /usr/share/scala /usr/share/scala
 
-# Fix symbolic links for sbt and Scala binaries
+# Garantir permissões de root para criar links simbólicos
+USER root
 RUN ln -sf /usr/share/sbt/bin/sbt /usr/local/bin/sbt \
  && ln -sf /usr/share/scala/bin/* /usr/local/bin
 
@@ -89,5 +90,4 @@ RUN mkdir -p /test && \
     echo "scalaVersion := \"${SCALA_VERSION}\"" > /test/build.sbt && \
     sbt -sbt-create compile
 
-# Final command
 CMD ["start.sh"]
