@@ -1,5 +1,4 @@
 # Base Image Selection
-# Scala and sbt base from Amazon Corretto
 ARG BASE_IMAGE_TAG
 FROM amazoncorretto:${BASE_IMAGE_TAG:-21.0.5-al2023} as scala-sbt
 
